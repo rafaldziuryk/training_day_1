@@ -79,8 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       date: DateTime.now(),
                       server: 'Server-$data',
                       onDismiss: () {
-                        list.removeAt(index);
-                        setState(() {});
+                        context.read<ReportsBloc>().add(ReportsRemove(index: index));
                       },
                     );
                   },

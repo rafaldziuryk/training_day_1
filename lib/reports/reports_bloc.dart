@@ -12,5 +12,10 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
       final dataState = ReportsData(reports: List.unmodifiable(list));
       emit(dataState);
     });
+    on<ReportsRemove>((event, emit) {
+      list.removeAt(event.index);
+      final dataState = ReportsData(reports: List.unmodifiable(list));
+      emit(dataState);
+    });
   }
 }
