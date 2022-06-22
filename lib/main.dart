@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:training_flutter_intro/reports/reports_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,33 +50,47 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final list = List.generate(100, (index) => index);
-
   @override
   Widget build(BuildContext context) {
     print('rebuild');
-    return Scaffold(
-      appBar: AppBar(
-        title: const Icon(Icons.flutter_dash_sharp),
-        backgroundColor: Colors.lime,
-      ),
-      body: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          final data = list[index];
-          print('Render $data');
-          return CardView(
-            key: ValueKey(data),
-            name: 'delta.home.pl',
-            description: 'Lista archowów $data',
-            date: DateTime.now(),
-            server: 'Server-$data',
-            onDismiss: () {
-              list.removeAt(index);
-              setState(() {});
+    return BlocProvider(
+      create: (context) => ReportsBloc()..add(ReportsInit()),
+      child: Builder(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Icon(Icons.flutter_dash_sharp),
+            backgroundColor: Colors.lime,
+          ),
+          body: BlocBuilder<ReportsBloc, ReportsState>(
+            builder: (context, state) {
+              if (state is ReportsInitial) {
+                return Text('Brak danych');
+              } else if (state is ReportsData) {
+                final list = state.reports;
+                return ListView.builder(
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    final data = list[index];
+                    print('Render $data');
+                    return CardView(
+                      key: ValueKey(data),
+                      name: 'delta.home.pl',
+                      description: 'Lista archowów $data',
+                      date: DateTime.now(),
+                      server: 'Server-$data',
+                      onDismiss: () {
+                        list.removeAt(index);
+                        setState(() {});
+                      },
+                    );
+                  },
+                );
+              } else {
+                return SizedBox.shrink();
+              }
             },
-          );
-        },
+          ),
+        ),
       ),
     );
   }
