@@ -1,5 +1,7 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 
 import 'features/reports/presentation/blocs/reports_bloc.dart';
@@ -72,13 +74,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemCount: list.length,
                   itemBuilder: (context, index) {
                     final data = list[index];
-                    print('Render $data');
                     return CardView(
                       key: ValueKey(data),
-                      name: 'delta.home.pl',
-                      description: 'Lista archowów $data',
-                      date: DateTime.now(),
-                      server: 'Server-$data',
+                      name: data.title,
+                      description: data.description,
+                      date: data.date,
+                      server: data.server,
+                      isOk: data.isOk,
                       onDismiss: () {
                         context.read<ReportsBloc>().add(ReportsRemove(index: index));
                       },
@@ -104,6 +106,7 @@ class CardView extends StatelessWidget {
     required this.description,
     required this.date,
     required this.server,
+    required this.isOk,
     required this.onDismiss,
   }) : super(key: key);
 
@@ -112,94 +115,107 @@ class CardView extends StatelessWidget {
   final String description;
   final DateTime date;
   final String server;
+  final bool isOk;
   final Function onDismiss;
 
   String get textDate => format.format(date);
 
-  final format = DateFormat('yyyy LLLL dd HH:mm:ss');
+  final format = DateFormat('yyyy LLLL dd');
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-      child: Dismissible(
-        onDismissed: (direction) {
-          onDismiss();
-        },
-        key: key,
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                      highlightColor: Colors.red,
-                      borderRadius: BorderRadius.circular(100),
-                      onTap: () {},
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(color: Colors.brown),
-                          // color: Colors.red,
-                        ),
-                        child: Icon(Icons.download_done),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                      height: 16,
-                    ),
-                    Column(
-                      children: [
-                        Text(name),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Text(description),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ExpandableNotifier(
+      child: Builder(
+        builder: (context) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: Dismissible(
+            onDismissed: (direction) {
+              onDismiss();
+            },
+            key: key,
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Column(
                   children: [
                     Row(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            print('asdasd');
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Clicked')));
-                          },
+                        InkWell(
+                          highlightColor: Colors.red,
+                          borderRadius: BorderRadius.circular(100),
+                          onTap: () {},
                           child: Container(
-                            width: 12,
-                            height: 12,
-                            color: Colors.lime,
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(color: Colors.brown),
+                              // color: Colors.red,
+                            ),
+                            child: Icon(Icons.download_done),
                           ),
                         ),
-                        const SizedBox(
-                          width: 8,
+                        SizedBox(
+                          width: 16,
+                          height: 16,
                         ),
-                        Text(
-                          server,
-                          style: TextStyle(
-                            color: Colors.lime,
-                            fontSize: 8,
-                            fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(name),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              GestureDetector(
+                                onTap: () => ExpandableController.of(context)?.toggle(),
+                                child: Expandable(
+                                  collapsed: Text(description.substring(0, 30)),
+                                  expanded: Html(data: description),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    Text(textDate)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                print('asdasd');
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Clicked')));
+                              },
+                              child: Container(
+                                width: 12,
+                                height: 12,
+                                color: isOk ? Colors.lime : Colors.red,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              server,
+                              style: TextStyle(
+                                color: Colors.lime,
+                                fontSize: 8,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(textDate)
+                      ],
+                    ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
