@@ -61,7 +61,17 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Builder(
         builder: (context) => Scaffold(
           appBar: AppBar(
-            title: const Icon(Icons.flutter_dash_sharp),
+            title: BlocBuilder<ReportsBloc, ReportsState>(
+              builder: (context, state) {
+                if (state is ReportsInitial) {
+                  return Text('Loading');
+                } else if (state is ReportsData) {
+                  return Text('Reports: ${state.reports.length}');
+                } else {
+                  return SizedBox.shrink();
+                }
+              },
+            ),
             backgroundColor: Colors.lime,
           ),
           body: BlocBuilder<ReportsBloc, ReportsState>(
