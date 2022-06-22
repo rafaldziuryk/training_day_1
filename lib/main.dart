@@ -169,8 +169,12 @@ class CardView extends StatelessWidget {
                               GestureDetector(
                                 onTap: () => ExpandableController.of(context)?.toggle(),
                                 child: Expandable(
-                                  collapsed: Text(description.substring(0, 30)),
-                                  expanded: Html(data: description),
+                                  collapsed: SizedBox(
+                                      height: 48,
+                                      child: Html(
+                                        data: '$description$description$description',
+                                      )),
+                                  expanded: Html(data: '$description$description$description'),
                                 ),
                               ),
                               const SizedBox(
