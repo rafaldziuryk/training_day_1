@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:training_flutter_intro/reports/reports_bloc.dart';
+
+import 'features/reports/presentation/blocs/reports_bloc.dart';
 
 void main() {
   runApp(const MyApp());

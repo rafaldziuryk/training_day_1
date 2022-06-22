@@ -10,7 +10,7 @@ class ReportsInitial extends ReportsState {
 }
 
 class ReportsData extends ReportsState {
-  final List<int> reports;
+  final List<Report> reports;
 
   const ReportsData({
     required this.reports,
