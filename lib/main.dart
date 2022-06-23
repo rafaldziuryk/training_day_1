@@ -136,15 +136,15 @@ class CardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpandableNotifier(
-      child: Builder(
-        builder: (context) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-          child: Dismissible(
-            onDismissed: (direction) {
-              onDismiss();
-            },
-            key: key,
+    return Dismissible(
+      onDismissed: (direction) {
+        onDismiss();
+      },
+      key: key,
+      child: ExpandableNotifier(
+        child: Builder(
+          builder: (context) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(4.0),

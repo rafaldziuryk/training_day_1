@@ -32,6 +32,7 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
     });
 
     on<ReportsRemove>((event, emit) {
+      print('asdsada');
       // list.removeAt(event.index);
       // final dataState = ReportsData(reports: List.unmodifiable(list));
       // emit(dataState);
