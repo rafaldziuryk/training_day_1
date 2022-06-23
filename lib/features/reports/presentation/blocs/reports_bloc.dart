@@ -10,6 +10,7 @@ import 'package:training_flutter_intro/features/reports/domain/entity/report.dar
 import 'package:training_flutter_intro/features/reports/domain/use_case/delete_report_use_case.dart';
 import 'package:training_flutter_intro/features/reports/domain/use_case/download_reports_use_case.dart';
 
+import '../../domain/use_case/add_report_use_case.dart';
 import '../../domain/use_case/fetch_reports_use_case.dart';
 
 part 'reports_event.dart';
@@ -20,11 +21,13 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
   final FetchReportsUseCase fetchReportsUseCase;
   final DownloadReportsUseCase downloadReportsUseCase;
   final DeleteReportUseCase deleteReportUseCase;
+  final AddReportUseCase addReportUseCase;
 
   ReportsBloc({
     required this.fetchReportsUseCase,
     required this.downloadReportsUseCase,
     required this.deleteReportUseCase,
+    required this.addReportUseCase,
   }) : super(ReportsInitial()) {
     on<ReportsInit>((event, emit) async {
       await reloadData(emit);
@@ -36,6 +39,13 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
 
     on<ReportsRemove>((event, emit) async {
       final result = await deleteReportUseCase(DeleteReportUseCaseParams(index: event.index));
+      await result.fold((error) {}, (data) async {
+        await reloadData(emit);
+      });
+    });
+
+    on<ReportsAdd>((event, emit) async {
+      final result = await addReportUseCase(AddReportUseCaseParams(report: event.report));
       await result.fold((error) {}, (data) async {
         await reloadData(emit);
       });

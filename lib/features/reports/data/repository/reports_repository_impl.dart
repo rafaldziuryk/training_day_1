@@ -45,4 +45,14 @@ class ReportsRepositoryImpl implements ReportsRepository {
       return Left(UnknownFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> addReport(Report report) async {
+    try {
+      localReportsDataSource.addReport(report);
+      return Right(null);
+    } catch (e) {
+      return Left(UnknownFailure());
+    }
+  }
 }

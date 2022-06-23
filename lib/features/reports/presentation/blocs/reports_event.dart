@@ -19,3 +19,14 @@ class ReportsRemove extends ReportsEvent {
     required this.index,
   });
 }
+
+class ReportsAdd extends ReportsEvent {
+  final Report report;
+
+  @override
+  List<Object?> get props => [];
+
+  const ReportsAdd({
+    required this.report,
+  });
+}

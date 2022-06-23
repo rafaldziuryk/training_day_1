@@ -82,6 +82,9 @@ class _ReportListState extends State<ReportList> {
                 context: context,
                 builder: (context) => AddReportDialog(),
               );
+              if (result != null) {
+                context.read<ReportsBloc>().add(ReportsAdd(report: result));
+              }
             },
           ),
         ),

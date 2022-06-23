@@ -20,4 +20,8 @@ class LocalReportsDataSource {
   Future deleteReport(int index) {
     return reportsBox.deleteAt(index);
   }
+
+  Future addReport(Report report) {
+    return reportsBox.add(report);
+  }
 }

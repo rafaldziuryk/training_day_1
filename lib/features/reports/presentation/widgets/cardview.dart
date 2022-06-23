@@ -76,7 +76,7 @@ class CardView extends StatelessWidget {
                                   collapsed: SizedBox(
                                       height: 48,
                                       child: Html(
-                                        data: '$description$description$description',
+                                        data: description,
                                       )),
                                   expanded: Html(data: '$description$description$description'),
                                 ),
