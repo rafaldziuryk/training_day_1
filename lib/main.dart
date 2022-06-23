@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 
+import 'core/dependency_injection.dart';
 import 'features/reports/presentation/blocs/reports_bloc.dart';
 
-void main() {
+void main() async {
+  await DIContainer().init();
   runApp(const MyApp());
 }
 
@@ -57,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     print('rebuild');
     return BlocProvider(
-      create: (context) => ReportsBloc()..add(ReportsInit()),
+      create: (context) => di.get<ReportsBloc>()..add(ReportsInit()),
       child: Builder(
         builder: (context) => Scaffold(
           appBar: AppBar(
