@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:training_flutter_intro/features/reports/data/data_source/local_reports_data_source.dart';
 import 'package:training_flutter_intro/features/reports/data/repository/reports_repository_impl.dart';
 import 'package:training_flutter_intro/features/reports/domain/repository/reports_repository.dart';
+import 'package:training_flutter_intro/features/reports/domain/use_case/delete_report_use_case.dart';
 import 'package:training_flutter_intro/features/reports/domain/use_case/download_reports_use_case.dart';
 import 'package:training_flutter_intro/features/reports/presentation/blocs/reports_bloc.dart';
 
@@ -40,9 +41,11 @@ class DIContainer {
     );
     di.registerSingleton(DownloadReportsUseCase(repository: di.get()));
     di.registerSingleton(FetchReportsUseCase(repository: di.get()));
+    di.registerSingleton(DeleteReportUseCase(repository: di.get()));
     di.registerFactory(() => ReportsBloc(
           downloadReportsUseCase: di.get(),
           fetchReportsUseCase: di.get(),
+          deleteReportUseCase: di.get(),
         ));
   }
 }
