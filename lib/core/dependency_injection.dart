@@ -19,6 +19,8 @@ class DIContainer {
   static const boxIdentifier = 'ReportsBox';
 
   Future init() async {
+    await Future.delayed(Duration(seconds: 2));
+
     await Hive.initFlutter().then((value) async {
       if (!Hive.isAdapterRegistered(ReportAdapter().typeId)) {
         Hive.registerAdapter(ReportAdapter());
