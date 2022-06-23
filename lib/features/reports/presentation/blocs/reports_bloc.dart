@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:training_flutter_intro/core/use_case.dart';
 import 'package:training_flutter_intro/features/reports/data/model/report_adapter.dart';
 import 'package:training_flutter_intro/features/reports/domain/entity/report.dart';
+import 'package:training_flutter_intro/features/reports/domain/use_case/delete_report_use_case.dart';
 import 'package:training_flutter_intro/features/reports/domain/use_case/download_reports_use_case.dart';
 
 import '../../domain/use_case/fetch_reports_use_case.dart';
@@ -18,10 +19,12 @@ part 'reports_state.dart';
 class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
   final FetchReportsUseCase fetchReportsUseCase;
   final DownloadReportsUseCase downloadReportsUseCase;
+  final DeleteReportUseCase deleteReportUseCase;
 
   ReportsBloc({
     required this.fetchReportsUseCase,
     required this.downloadReportsUseCase,
+    required this.deleteReportUseCase,
   }) : super(ReportsInitial()) {
     on<ReportsInit>((event, emit) async {
       await reloadData(emit);
@@ -31,11 +34,11 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
       });
     });
 
-    on<ReportsRemove>((event, emit) {
-      print('asdsada');
-      // list.removeAt(event.index);
-      // final dataState = ReportsData(reports: List.unmodifiable(list));
-      // emit(dataState);
+    on<ReportsRemove>((event, emit) async {
+      final result = await deleteReportUseCase(DeleteReportUseCaseParams(index: event.index));
+      await result.fold((error) {}, (data) async {
+        await reloadData(emit);
+      });
     });
   }
 

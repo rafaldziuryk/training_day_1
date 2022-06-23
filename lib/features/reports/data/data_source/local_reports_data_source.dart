@@ -16,4 +16,8 @@ class LocalReportsDataSource {
   Future saveReportsToLocalStorage(List<Report> reports) {
     return reportsBox.addAll(reports);
   }
+
+  Future deleteReport(int index) {
+    return reportsBox.deleteAt(index);
+  }
 }

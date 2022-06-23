@@ -35,4 +35,14 @@ class ReportsRepositoryImpl implements ReportsRepository {
       return Left(UnknownFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> deleteReport(int index) async {
+    try {
+      localReportsDataSource.deleteReport(index);
+      return Right(null);
+    } catch (e) {
+      return Left(UnknownFailure());
+    }
+  }
 }
