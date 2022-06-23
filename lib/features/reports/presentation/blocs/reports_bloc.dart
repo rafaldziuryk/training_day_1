@@ -12,7 +12,7 @@ part 'reports_event.dart';
 part 'reports_state.dart';
 
 class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
-  final dio = Dio(BaseOptions(baseUrl: 'http://localhost:8080/'));
+  final dio = Dio(BaseOptions(baseUrl: 'https://trainingserver1.herokuapp.com/'));
 
   ReportsBloc() : super(ReportsInitial()) {
     on<ReportsInit>((event, emit) async {
