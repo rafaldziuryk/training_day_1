@@ -26,11 +26,9 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
     on<ReportsInit>((event, emit) async {
       await reloadData(emit);
       final downloadResult = await downloadReportsUseCase(NoParams());
-      await reloadData(emit);
-
-      // downloadResult.fold((error) {}, (data) async {
-      //   await reloadData(emit);
-      // });
+      await downloadResult.fold((error) {}, (data) async {
+        await reloadData(emit);
+      });
     });
 
     on<ReportsRemove>((event, emit) {
