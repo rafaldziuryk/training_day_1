@@ -12,4 +12,8 @@ class LocalReportsDataSource {
   Future<List<Report>> loadReportsFromLocalStorage() async {
     return reportsBox.values.toList();
   }
+
+  Future saveReportsToLocalStorage(List<Report> reports) {
+    return reportsBox.addAll(reports);
+  }
 }

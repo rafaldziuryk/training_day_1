@@ -5,4 +5,5 @@ import '../entity/report.dart';
 
 abstract class ReportsRepository {
   Future<Either<Failure, List<Report>>> fetchReports();
+  Future<Either<Failure, void>> downloadReports();
 }
