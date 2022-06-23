@@ -45,6 +45,9 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
   Future<void> reloadData(Emitter<ReportsState> emit) async {
     final result = await fetchReportsUseCase.call(NoParams());
     result.fold((error) {}, (data) {
+      data.sort(
+        (a, b) => b.date.compareTo(a.date),
+      );
       final dataState = ReportsData(reports: List.unmodifiable(data));
       emit(dataState);
     });
