@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/dependency_injection.dart';
 import '../blocs/reports_bloc.dart';
+import '../widgets/add_report_dialog.dart';
 import '../widgets/cardview.dart';
 
 class ReportList extends StatefulWidget {
@@ -71,6 +72,16 @@ class _ReportListState extends State<ReportList> {
               } else {
                 return SizedBox.shrink();
               }
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () async {
+              final result = await showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) => AddReportDialog(),
+              );
             },
           ),
         ),
