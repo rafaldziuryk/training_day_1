@@ -8,8 +8,8 @@ part 'router.gr.dart';
 @CustomAutoRouter(
   transitionsBuilder: TransitionsBuilders.fadeIn,
   routes: <AutoRoute>[
-    MaterialRoute(page: ReportList, path: '/reports', initial: true),
-    MaterialRoute(
+    AutoRoute(page: ReportList, path: '/reports', initial: true),
+    AutoRoute(
       page: ReportDetails,
       path: '/reports/:id',
     ),

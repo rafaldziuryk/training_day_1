@@ -6,6 +6,7 @@ import 'package:training_flutter_intro/features/init/presentation/pages/init_pag
 import 'package:training_flutter_intro/router.dart';
 
 void main() async {
+  print(String.fromEnvironment('SERVER'));
   runApp(MyApp());
 }
 
